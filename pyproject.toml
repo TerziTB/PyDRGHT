@@ -1,0 +1,47 @@
+[build-system]
+requires = ["setuptools>=65.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pydrght"
+version = "0.1.2"
+description = "A comprehensive Python package for drought analysis, with standardized indices (SPI, SPEI, SSFI) and copula-based bivariate MSDI for multivariate drought characterization."
+readme = { file = "README.md", content-type = "text/markdown" }
+requires-python = ">=3.8"
+license = { file = "LICENSE" }
+authors = [
+    {name = "Tolga Barış Terzi", email = "tolgabaristerzi@ktu.edu.tr"}
+]
+keywords = ["drought", "SPI", "SPEI", "MSDI", "indices", "copulas", "hydrology"]
+classifiers = [
+    "Intended Audience :: Science/Research",
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Topic :: Scientific/Engineering :: Hydrology",
+]
+
+dependencies = [
+    "numpy>=1.23",
+    "pandas>=1.5",
+    "scipy>=1.10"
+]
+
+[project.urls]
+Homepage = "https://github.com/terzitb/pydrght"
+Repository = "https://github.com/terzitb/pydrght"
+
+[project.optional-dependencies]
+excel = ["openpyxl>=3.0"]
+dev = [
+    "pytest>=7.0",
+    "pytest-cov>=4.0",
+    "jupyter>=1.0",
+    "nbconvert>=7.0"
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+pydrght = ["examples/*.csv", "examples/*.ipynb"]
