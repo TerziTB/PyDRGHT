@@ -105,6 +105,13 @@ class PlackettCopula(ExtremeCopula):
             pdf_vals = np.clip(pdf_vals, 1e-10, None)
             return -np.sum(np.log(pdf_vals))
 
-        lower, upper = bracket_1d(negloglike, 1e-3, 5)
+        try:
+            lower, upper = bracket_1d(negloglike, 1e-3, 5)
+            if not np.isfinite(lower) or not np.isfinite(upper):
+            # If bracket_1d returns non-finite bounds, replace with fallback
+                lower, upper = 0.01, 100
+        except Exception:
+            lower, upper = 0.01, 100
+        
         self.theta = fminbound(negloglike, lower, upper, xtol=1e-6, maxfun=200)
         return self
