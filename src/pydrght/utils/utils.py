@@ -132,3 +132,47 @@ def multi_emp(X, Y, method='Gringorten') -> pd.Series:
             raise ValueError("method must be 'Gringorten' or 'Weibull'")
 
     return pd.Series(S, index=X.index)
+
+def tri_emp(X, Y, Z, method='Gringorten') -> pd.Series:
+    """
+    Compute joint empirical probabilities for trivariate data using a plotting position formula.
+
+    Parameters
+    ----------
+    X, Y, Z : pd.Series or array-like
+        Input variables.
+    method : str, default='Gringorten'
+        Plotting position formula. Options: 'Gringorten', 'Weibull'.
+
+    Returns
+    -------
+    pd.Series
+        Joint empirical probabilities, indexed like X.
+
+    Notes
+    -----
+    The joint empirical probability is the proportion of observations
+    less than or equal to X_i, Y_i, and Z_i for each i. 
+    """
+    # Ensure Series
+    X = pd.Series(X, name="X")
+    Y = pd.Series(Y, name="Y")
+    Z = pd.Series(Z, name="Z")
+
+    # Drop missing values
+    df = pd.concat([X, Y, Z], axis=1).dropna()
+    X, Y, Z = df.iloc[:, 0], df.iloc[:, 1], df.iloc[:, 2]
+
+    n = len(X)
+    S = np.empty(n)
+
+    for k in range(n):
+        count = np.sum((X <= X.iloc[k]) & (Y <= Y.iloc[k]) & (Z <= Z.iloc[k]))
+        if method == 'Gringorten':
+            S[k] = (count - 0.44) / (n + 0.12)
+        elif method == 'Weibull':
+            S[k] = count / (n + 1)
+        else:
+            raise ValueError("method must be 'Gringorten' or 'Weibull'")
+
+    return pd.Series(S, index=X.index)
