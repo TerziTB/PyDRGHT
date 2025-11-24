@@ -8,9 +8,15 @@
 
 PyDRGHT provides tools for **univariate and multivariate drought assessment**, combining standardized indices, classical indices, copula-based methods, and frequency analysis.
 
+PyDRGHT is designed for **monthly** hydrometeorological time series.
 ---
 
 ## Features
+
+- **Distribution Fitting Methods** 
+  - PyDRGHT provides two independent frameworks for fitting probability distributions required in standardized drought indices (SPI, SPEI, SSFI, etc.):
+  - Maximum Likelihood Estimation (MLE): Implemented using scipy.stats continuous distributions
+  - Unbiased Probability Weighted Moments (UB-PWM): Based on L-moments and unbiased PWMs
 
 - **Standardized indices** (based on SPI methodology with different variables):  
   - SPI (Standardized Precipitation Index)  
@@ -27,7 +33,8 @@ PyDRGHT provides tools for **univariate and multivariate drought assessment**, c
   - DI (Deciles Index)  
 
 - **Multivariate drought indices**:  
-  - MSDI (Multivariate Standardized Drought Index) – both **empirical** and **copula-based** approaches  
+  - MSDI (Multivariate Standardized Drought Index) – both **empirical** and **copula-based** approaches
+  - TSDI (Trivariate Standardized Drought Index) - **empirical** approach
 
 - **Drought characteristics**:  
   - Duration, severity, intensity, frequency  
@@ -92,9 +99,10 @@ print(spi_param.head())
 | `pydrght.RAI`            | **Rainfall Anomaly Index** (RAI)                                                                                |
 | `pydrght.RDI`            | **Reconnaissance Drought Index** (RDI)                                                                          |
 | `pydrght.SI`             | **Standardized Index class** for SPI, SPEI, SSFI, SGI, SSMI                                                     |
+| `pydrght.TSDI`             | **Trivariate Standardized Drought Index**                                                      |
 | `pydrght.copulas`        | Copula classes: `ClaytonCopula`, `FrankCopula`, `GumbelCopula`, `GaussianCopula`, `GalambosCopula`, `PlackettCopula` |
 | `pydrght.pet`            | Potential Evapotranspiration (PET) methods: `hargreaves`,  `thornthwaite`                      |
-| `pydrght.utils`          | Utility functions: `uni_emp`, `multi_emp`, `accu`                                                               |
+| `pydrght.utils`          | Utility functions: `uni_emp`, `multi_emp`, `accu`, `tri_emp`,`plot_index_with_severity`                                                               |
 | `pydrght/examples`       | Example datasets (`.csv`) and usage notebooks (`.ipynb`)                                                         |
 
 ---
