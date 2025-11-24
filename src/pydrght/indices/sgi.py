@@ -1,4 +1,4 @@
-from ..si import SI
+from pydrght.si import SI
 
 class SGI(SI):
     """
