@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
 
 def uni_emp(X, method='Gringorten') -> pd.Series:
     """
@@ -154,12 +155,10 @@ def tri_emp(X, Y, Z, method='Gringorten') -> pd.Series:
     The joint empirical probability is the proportion of observations
     less than or equal to X_i, Y_i, and Z_i for each i. 
     """
-    # Ensure Series
     X = pd.Series(X, name="X")
     Y = pd.Series(Y, name="Y")
     Z = pd.Series(Z, name="Z")
 
-    # Drop missing values
     df = pd.concat([X, Y, Z], axis=1).dropna()
     X, Y, Z = df.iloc[:, 0], df.iloc[:, 1], df.iloc[:, 2]
 
@@ -176,3 +175,83 @@ def tri_emp(X, Y, Z, method='Gringorten') -> pd.Series:
             raise ValueError("method must be 'Gringorten' or 'Weibull'")
 
     return pd.Series(S, index=X.index)
+
+def plot_index(*indices):
+    """
+    Plot one or more standardized indices from pandas Series.
+
+    Parameters
+    ----------
+    *indices : pd.Series
+        One or more pandas Series to plot. The index should be datetime-like or numeric.
+    """
+    colors = ["tab:blue", "tab:orange", "tab:green", "tab:red"]
+
+    plt.figure(figsize=(12, 5))
+
+    for i, series in enumerate(indices):
+        label = series.name if series.name is not None else f"Index_{i+1}"
+        plt.plot(series.index, series.values, label=label, color=colors[i % len(colors)], linewidth=1.5)
+
+    plt.axhline(0, color="black", linestyle="-", linewidth=1.5)
+
+    plt.ylim(-4, 4)
+
+    ax = plt.gca()
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+    ax.spines['bottom'].set_visible(False)
+    ax.spines['left'].set_linewidth(1.5)
+
+    ax.tick_params(axis='both', which='both', length=0, labelbottom=False, labelleft=True)
+
+    plt.legend(loc='upper left')
+
+    plt.xlabel("Time (Month)")
+    plt.ylabel("Index Value")
+    plt.show()
+
+
+def plot_index_with_severity(*series_list):
+    """
+    Plot standardized indices with areas below 0 filled in red.
+
+    Parameters
+    ----------
+    df : pd.DataFrame
+        DataFrame containing indices to plot.
+    indices : list
+        Column names of the indices to plot.
+    """
+    colors = ["tab:blue", "tab:orange", "tab:green", "tab:red"]  # extend if needed
+
+    plt.figure(figsize=(12, 5))
+    
+    for i, s in enumerate(series_list):
+        x = s.index
+        y = s.values
+        plt.plot(x, y, color=colors[i % len(colors)], linewidth=1.5, label="Index")
+        
+        plt.fill_between(x, y, 0, where=(y < 0), color='red', alpha=0.3, label="< 0")
+        plt.fill_between(x, y, 0, where=(y < -1), color='red', alpha=0.6, label="< -1")
+        plt.fill_between(x, y, 0, where=(y < -2), color='darkred', alpha=0.9, label="< -2") 
+
+    plt.axhline(0, color="black", linestyle="--", linewidth=1.5)
+    plt.axhline(-1, color="red", linestyle="--", linewidth=1.5)
+    plt.axhline(-2, color="red", linestyle="--", linewidth=1.5)
+    
+    plt.ylim(-4, 4)
+
+    ax = plt.gca()
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+    ax.spines['bottom'].set_visible(False)
+    ax.spines['left'].set_linewidth(1.5)  # thicker left spine
+
+    ax.tick_params(axis='both', which='both', length=0, labelbottom=False, labelleft=True)
+
+    plt.legend(loc='upper left')
+
+    plt.xlabel("Time (Month)")
+    plt.ylabel("Index Value")
+    plt.show()
