@@ -1,6 +1,8 @@
 from . import copulas
 from . import pet    
 from . import utils
+from . import methods
+from . import indices
 
 from .bfa import BFA
 from .czi import CZI
@@ -14,7 +16,7 @@ from .rdi import RDI
 from .si import SI
 
 __all__ = [
-    "copulas", "pet", "utils",
+    "copulas", "pet", "utils", "methods", "indices"
     
     "BFA",
     "CZI",
@@ -25,7 +27,8 @@ __all__ = [
     "PNI",
     "RAI",
     "RDI",
-    "SI"
+    "SI",
+    "TSDI"
 ]
 
 __version__ = "0.1.3"
