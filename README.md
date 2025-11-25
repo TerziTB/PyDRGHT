@@ -8,7 +8,8 @@
 
 PyDRGHT provides tools for **univariate and multivariate drought assessment**, combining standardized indices, classical indices, copula-based methods, and frequency analysis.
 
-PyDRGHT is designed for **monthly** hydrometeorological time series.
+PyDRGHT is built for **monthly** hydrometeorological time series and supports any dataset that can be converted to a `pd.Series.`
+
 ---
 
 ## Features
@@ -47,7 +48,8 @@ PyDRGHT is designed for **monthly** hydrometeorological time series.
 
 - **Additional tools**:  
     - Potential Evapotranspiration (PET) via Hargreaves and Thornthwaite methods  
-    - Dependence modeling with copulas (Archimedean, Elliptical, Extreme-value families)  
+    - Dependence modeling with copulas (Archimedean, Elliptical, Extreme-value families) 
+    - Advanced plotting utilities with automatic drought-severity shading, visually highlighting values below 0 (mild dryness), −1 (moderate drought), and −2 (severe drought). 
 
 ---
 
@@ -102,6 +104,8 @@ print(spi_param.head())
 | `pydrght.TSDI`             | **Trivariate Standardized Drought Index**                                                      |
 | `pydrght.copulas`        | Copula classes: `ClaytonCopula`, `FrankCopula`, `GumbelCopula`, `GaussianCopula`, `GalambosCopula`, `PlackettCopula` |
 | `pydrght.pet`            | Potential Evapotranspiration (PET) methods: `hargreaves`,  `thornthwaite`                      |
+| `pydrght.methods`            | Unbiased-PWM L-moment estimators and CDF functions for: `Gamma`,  `Generalized Logistic` and, `Pearson III`                       |
+| `pydrght.indices`            | Standardized index subclasses using default probability distributions: `SPI`,  `SPEI`, `SGI`, `SSFI` and, `SSMI`                       |
 | `pydrght.utils`          | Utility functions: `uni_emp`, `multi_emp`, `accu`, `tri_emp`,`plot_index_with_severity`                                                               |
 | `pydrght/examples`       | Example datasets (`.csv`) and usage notebooks (`.ipynb`)                                                         |
 
