@@ -14,6 +14,7 @@ from .pni import PNI
 from .rai import RAI
 from .rdi import RDI
 from .si import SI
+from .tsdi import TSDI
 
 __all__ = [
     "copulas", "pet", "utils", "methods", "indices"
@@ -31,4 +32,4 @@ __all__ = [
     "TSDI"
 ]
 
-__version__ = "0.1.3"
+__version__ = "0.2.0"
