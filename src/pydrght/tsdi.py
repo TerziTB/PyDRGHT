@@ -64,10 +64,18 @@ class TSDI:
         metrics = {"AIC": np.nan, "BIC": np.nan, "NLL": np.nan}
         return msdi_values, metrics
 
-    def empirical(self) -> pd.Series:
+    def empirical(self, method: str = "Gringorten") -> pd.Series:
         """
         Compute trivariate TSDI using empirical joint probabilities.
 
+        Parameters
+        ----------
+        method : str, optional
+            Method for empirical plotting position.
+            Options:
+            - "Gringorten" (default)
+            - "Weibull"
+            
         Returns
         -------
         tsdi_values : pd.Series
@@ -79,7 +87,7 @@ class TSDI:
             ya_slice = self.YA.values[month-1::12]
             za_slice = self.ZA.values[month-1::12]
 
-            prob = tri_emp(xa_slice, ya_slice, za_slice)
+            prob = tri_emp(xa_slice, ya_slice, za_slice, method=method)
             tsdi_values[month] = norm.ppf(prob)
 
         reordered = np.full(self.n, np.nan)
