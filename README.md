@@ -162,6 +162,7 @@ PyDRGHT is licensed under the MIT License – see the [LICENSE](LICENSE) file fo
 
 If you use **PyDRGHT** in your research, please cite the following article:
 
-> Terzi TB (2025) PyDRGHT: A comprehensive python package for drought analysis. Environmental Modelling & Software.
+> Terzi, T.B., 2026. PyDRGHT: A comprehensive python package for drought analysis. Environmental Modelling & Software 197, 106847. https://doi.org/10.1016/j.envsoft.2025.106847
+
 
 ---
