@@ -70,8 +70,12 @@ class SI:
     """
 
     def __init__(self, data: pd.Series, ts: int = 1):
+        if hasattr(data, "to_series"):
+            data = data.to_series()
+    
         if not isinstance(data, pd.Series):
             data = pd.Series(data)
+
         self.data = data
         self.ts = ts
         self.aggregated = accu(data, ts)
