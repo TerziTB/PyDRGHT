@@ -42,10 +42,18 @@ def uni_emp(X, method='Gringorten') -> pd.Series:
 
     if method == 'Gringorten':
         cdf = (S - 0.44) / (n + 0.12)
+    elif method == 'Blom':
+        cdf = (S - 0.375) / (n + 0.25)
+    elif method == 'Hazen':
+        cdf = (S - 0.50) / n
+    elif method == 'California':
+        cdf = (S - 1) / n
+    elif method == 'Tukey':
+        cdf = (3 * S - 1) / (3 * n + 1)
     elif method == 'Weibull':
         cdf = S / (n + 1)
     else:
-        raise ValueError("method must be 'Gringorten' or 'Weibull'")
+        raise ValueError("Method must be 'Gringorten', 'Blom', 'Cunnane', 'Hazen', 'Weibull', 'California', or 'Tukey'")
 
     return pd.Series(cdf.values, index=X.index)
 
@@ -127,10 +135,20 @@ def multi_emp(X, Y, method='Gringorten') -> pd.Series:
         count = np.sum((X <= X.iloc[k]) & (Y <= Y.iloc[k]))
         if method == 'Gringorten':
             S[k] = (count - 0.44) / (n + 0.12)
+        elif method == 'Blom':
+            S[k] = (count - 0.375) / (n + 0.25)
+        elif method == 'Cunnane':
+            S[k] = (count - 0.40) / (n + 0.20)
+        elif method == 'Hazen':
+            S[k] = (count - 0.50) / n
         elif method == 'Weibull':
             S[k] = count / (n + 1)
+        elif method == 'California':
+            S[k] = (count - 1) / n
+        elif method == 'Tukey':
+            S[k] = (3 * count - 1) / (3 * n + 1)
         else:
-            raise ValueError("method must be 'Gringorten' or 'Weibull'")
+            raise ValueError("Method must be 'Gringorten', 'Blom', 'Cunnane', 'Hazen', 'Weibull', 'California', or 'Tukey'")
 
     return pd.Series(S, index=X.index)
 
@@ -169,10 +187,20 @@ def tri_emp(X, Y, Z, method='Gringorten') -> pd.Series:
         count = np.sum((X <= X.iloc[k]) & (Y <= Y.iloc[k]) & (Z <= Z.iloc[k]))
         if method == 'Gringorten':
             S[k] = (count - 0.44) / (n + 0.12)
+        elif method == 'Blom':
+            S[k] = (count - 0.375) / (n + 0.25)
+        elif method == 'Cunnane':
+            S[k] = (count - 0.40) / (n + 0.20)
+        elif method == 'Hazen':
+            S[k] = (count - 0.50) / n
         elif method == 'Weibull':
             S[k] = count / (n + 1)
+        elif method == 'California':
+            S[k] = (count - 1) / n
+        elif method == 'Tukey':
+            S[k] = (3 * count - 1) / (3 * n + 1)
         else:
-            raise ValueError("method must be 'Gringorten' or 'Weibull'")
+            raise ValueError("Method must be 'Gringorten', 'Blom', 'Cunnane', 'Hazen', 'Weibull', 'California', or 'Tukey'")
 
     return pd.Series(S, index=X.index)
 
