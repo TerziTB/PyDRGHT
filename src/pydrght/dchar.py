@@ -21,7 +21,15 @@ class DChar:
         min_drought_duration : int
             Minimum number of consecutive periods to consider a drought event.
         """
+        
+        if hasattr(time_series, "to_series"):
+            time_series = time_series.to_series()
+        
+        if not isinstance(time_series, pd.Series):
+            time_series = pd.Series(time_series)
+            
         self.ts = time_series.dropna()
+        
         self.onset_threshold = onset_threshold
         self.recovery_threshold = recovery_threshold
         self.min_drought_duration = min_drought_duration
@@ -82,20 +90,20 @@ class DChar:
                         frequency.append((drought_duration / total_length) * 100)
 
                         # Recovery calculation
-                        recovery_start_index = ts.index.get_loc(event_end) + 1
+                        recovery_start_index = i
                         recovery_end_index = None
                         for j in range(recovery_start_index, len(ts)):
                             if ts.iloc[j] <= self.onset_threshold:
-                                next_event_start = ts.index[j]
+                                next_event_start = j
                                 break
                         for k in range(recovery_start_index, len(ts)):
                             if ts.iloc[k] >= self.recovery_threshold:
                                 recovery_end_index = k
                                 break
                         if recovery_end_index is not None and (
-                            next_event_start is None or ts.index[recovery_end_index] < next_event_start
+                            next_event_start is None or recovery_end_index < next_event_start
                         ):
-                            recovery_duration.append(ts.index[recovery_end_index] - event_end + 1)
+                            recovery_duration.append(recovery_end_index - i + 1)
                         else:
                             recovery_duration.append("No recovery")
 
@@ -125,15 +133,17 @@ class DChar:
                     recovery_end_index = k
                     break
             if recovery_end_index is not None and (
-                next_event_start is None or ts.index[recovery_end_index] < next_event_start
+                next_event_start is None or recovery_end_index < next_event_start
             ):
-                recovery_duration.append(ts.index[recovery_end_index] - event_end + 1)
+                recovery_duration.append(recovery_end_index - i + 1)
             else:
                 recovery_duration.append("No recovery")
 
         # Calculate interarrival times
         for j in range(1, len(date_ini_ev)):
-            interarrival.append(date_ini_ev[j] - date_fin_ev[j - 1])
+            start_pos = ts.index.get_loc(date_ini_ev[j])
+            prev_end_pos = ts.index.get_loc(date_fin_ev[j-1])
+            interarrival.append(start_pos - prev_end_pos)
         if len(interarrival) < len(duration):
             interarrival = interarrival + [np.nan]
 
