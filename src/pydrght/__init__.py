@@ -15,6 +15,7 @@ from .rai import RAI
 from .rdi import RDI
 from .si import SI
 from .tsdi import TSDI
+from .pds import PDS
 
 __all__ = [
     "copulas", "pet", "utils", "methods", "indices"
@@ -29,7 +30,8 @@ __all__ = [
     "RAI",
     "RDI",
     "SI",
-    "TSDI"
+    "TSDI",
+    "PDS"
 ]
 
-__version__ = "0.2.0"
+__version__ = "0.2.1"
